@@ -1,16 +1,25 @@
 package examproject.recipientidentification;
 
 public class EvacuationLeader {
+    public double priorityScore;
     String id;
     double latitude;
     double longitude;
     double workload; // Value between 0 (no workload) and 1 (maximum workload)
 
-    public EvacuationLeader(String id, double latitude,double longitude){
-        this.id=id;
-        this.latitude=latitude;
-        this.longitude=longitude;
+    double elevation;
+    int assignedFloor;
 
+    public EvacuationLeader(String id, double latitude, double longitude, double elevation, double workload) {
+        this.id=id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.workload = workload;
+        this.elevation = elevation;
+    }
+
+    public int getAssignedFloor() {
+        return assignedFloor;
     }
 
     public double getLatitude() {
@@ -44,4 +53,17 @@ public class EvacuationLeader {
     public void setWorkload(double workload) {
         this.workload = workload;
     }
+
+    public void setAssignedFloor(int assignedFloor) {
+        this.assignedFloor = assignedFloor;
+    }
+
+    @Override
+    public String toString() {
+        return id + " - Workload: " + workload +
+                ", Position: (" + latitude + ", " + longitude +", " +elevation+
+                ", Priority Score: " + priorityScore;
+    }
+
 }
+
