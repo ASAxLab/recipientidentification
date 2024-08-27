@@ -48,6 +48,11 @@ public class Leader extends Occupant {
         WorkloadNotification = workloadNotification;
     }
 
+    public void addAssignedRoom(Room room) {
+        this.assignedRooms.add(room);
+    }
+
+
     public double getWorkloadNotification() {
         return WorkloadNotification;
     }
