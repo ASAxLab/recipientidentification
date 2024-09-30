@@ -11,7 +11,7 @@ public class Leader extends Occupant {
     private double WorkloadNotification;
     private ArrayList<Room> assignedRooms;
     boolean isAvailable;
-    private ArrayList<Room> FullPath; // Use ArrayList instead of Path for easier manipulation
+    private ArrayList<Room> FullPath;
 
     public Leader(int id, String type, Room roomLocation) {
         super(id, type);

@@ -14,8 +14,7 @@ import java.util.Random;
 public class BuildingEvacuation {
     Graph graph;
     ArrayList<Leader> leaders;
-    RecipientIdentificationHandler recipientIdentificationHandler;
-    public ArrayList<Room> allRooms = new ArrayList<>(); // Assuming this is populated elsewhere in your code
+    public ArrayList<Room> allRooms = new ArrayList<>();
     private long seed;
 
     public BuildingEvacuation(boolean optimal, long seed) {
@@ -29,10 +28,10 @@ public class BuildingEvacuation {
         // Use the SpringBox layout
         Viewer viewer = graph.display();
         SpringBox layout = new SpringBox();
-        layout.setForce(1000);            // Default is 1.0, increase to spread nodes further apart
-        layout.setQuality(1);             // Default is 1.0, lower values speed up stabilization
-        layout.setStabilizationLimit(1);  // Default is 1, increase for longer stabilization
-        layout.setGravityFactor(5000);    // Default is 0.1, increase to pull nodes toward center
+        layout.setForce(1000);
+        layout.setQuality(1);
+        layout.setStabilizationLimit(1);
+        layout.setGravityFactor(5000);
         viewer.enableAutoLayout(layout);
 
         // Creating an instance of Random with the given seed
@@ -52,7 +51,7 @@ public class BuildingEvacuation {
             usedIndexes.add(randomNum);
         }
 
-        // Programmatically creating leader room assignments
+
         int numLeaders = 5; // Number of leaders
         List<List<Room>> leaderRoomAssignments = new ArrayList<>();
         for (int i = 0; i < numLeaders; i++) {
@@ -87,17 +86,17 @@ public class BuildingEvacuation {
         blockRoom(getRoomByName("StairsB3"));
 
         if (optimal) {
-            // Pass the list of notification rooms to the handler
+
             RecipientIdentificationHandler3 recipientIdentificationHandler3 = new RecipientIdentificationHandler3(this, leaders, notificationRooms);
         } else {
-            // Assuming RecipientIdentificationHandler4 still handles a single notification
+
             RecipientIdentificationHandler4 recipientIdentificationHandler4 = new RecipientIdentificationHandler4(this, leaders, notificationRooms);
         }
     }
 
 
     private boolean isEntranceRoom(Room room) {
-        // Implement logic to determine if a room is an entrance room
+
         return "entrance".equals(room.getType());
     }
 
@@ -111,7 +110,7 @@ public class BuildingEvacuation {
             node.setAttribute("ui.class", "blocked");
         }
 
-        // Iterate over all other rooms to find and adjust edges connected to the blocked room
+
         for (Room otherRoom : allRooms) {
             if (!otherRoom.equals(room)) {
                 String edgeId = room.getName() + "-" + otherRoom.getName();
@@ -122,20 +121,20 @@ public class BuildingEvacuation {
                 Edge reverseEdge = graph.getEdge(reverseEdgeId);
 
                 if (edge != null) {
-                    edge.setAttribute("weight", 10000);  // Set a very high weight
-                    edge.setAttribute("ui.label", "∞");  // Optionally label it as infinite or a large value
-                 //   edge.setAttribute("ui.style", "fill-color: red;");  // Highlight the edge
+                    edge.setAttribute("weight", 10000);
+                    edge.setAttribute("ui.label", "∞");
+                 //   edge.setAttribute("ui.style", "fill-color: red;");
                 }
 
                 if (reverseEdge != null) {
-                    reverseEdge.setAttribute("weight", 10000);  // Set a very high weight
-                    reverseEdge.setAttribute("ui.label", "∞");  // Optionally label it as infinite or a large value
-                 //   reverseEdge.setAttribute("ui.style", "fill-color: red;");  // Highlight the edge
+                    reverseEdge.setAttribute("weight", 10000);
+                    reverseEdge.setAttribute("ui.label", "∞");
+                 //   reverseEdge.setAttribute("ui.style", "fill-color: red;");
                 }
             }
         }
 
-        // Iterate through all leaders and remove the blocked room from their assigned rooms
+     
         for (Leader leader : leaders) {
             if (leader.getAssignedRooms().remove(room)) {
                 System.out.println("Removed blocked room " + room.getName() + " from Leader " + leader.getId() + "'s assignments.");
@@ -190,15 +189,15 @@ public class BuildingEvacuation {
     }
 
     private void assignRoomsToLeader(Leader leader, List<Room> assignedRooms) {
-        // Make a copy of the assigned rooms list
+
         ArrayList<Room> roomsWithExit = new ArrayList<>(assignedRooms);
 
-        // Get the exit room
 
-        // Assign the rooms to the leader
-        leader.setAssignedRooms(roomsWithExit); // Assuming Leader has a setAssignedRooms method
 
-        // Print out the leader's location and the rooms assigned to the leader
+
+        leader.setAssignedRooms(roomsWithExit);
+
+
         System.out.println("Leader " + leader.getId() + " located at: " + leader.getRoomLocation().getName());
         System.out.println("Leader " + leader.getId() + " assigned rooms:");
         for (Room room : roomsWithExit) {
@@ -213,19 +212,19 @@ public class BuildingEvacuation {
     private void addGraphRoom(Room room) {
         allRooms.add(room);
         Node node = graph.addNode(room.name);
-        node.setAttribute("ui.label", formatNodeLabel(room));  // Set label to room name only
-        node.setAttribute("ui.class", room.getType());  // Set the class for styling based on room type
+        node.setAttribute("ui.label", formatNodeLabel(room));
+        node.setAttribute("ui.class", room.getType());
         if (room.isBlocked) {
             node.setAttribute("ui.class", "blocked");
         }
     }
 
     public static String formatNodeLabel(Room room) {
-        return room.name;  // Just return the room name for the node label
+        return room.name;
     }
 
     private void connectRooms(String from, String to, double meter) {
-        // Add edge from 'from' to 'to'
+
         Edge e = graph.addEdge(from + "-" + to, from, to, false);
         if (e != null) {
             e.setAttribute("weight", meter);

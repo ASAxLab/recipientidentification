@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.BuildingEvacuation;
+import org.example.Leader;
+import org.example.Room;
 import org.graphstream.algorithm.Dijkstra;
 import org.graphstream.graph.Path;
 
@@ -19,7 +22,7 @@ public class RecipientIdentificationHandler4 {
         this.leaders = leaders;
         this.notificationRooms = notificationRooms;
 
-        // Initialize shortest paths between all pairs of rooms
+
         this.shortestPaths = calculateShortestPaths();
 
         // Calculate total workload for all leaders without notification
@@ -68,18 +71,7 @@ public class RecipientIdentificationHandler4 {
             }
             System.out.printf("Total Workload for Scenario with Leader %d Notified: %.2f seconds\n", leaders.get(i).id, totalWorkload);
 
-/*            // Print the full path with travel times for the current leader
-            List<Room> fullPath = leaders.get(i).getFullPath();
-            double totalDistanceInSeconds = 0.0;
-            for (int k = 0; k < fullPath.size() - 1; k++) {
-                Room fromRoom = fullPath.get(k);
-                Room toRoom = fullPath.get(k + 1);
-                double distance = getShortestPathLength(fromRoom.getName(), toRoom.getName());
-                double timeInSeconds = distance / 1.5;
-                totalDistanceInSeconds += timeInSeconds;
-                System.out.printf(" - %s to %s: %.2f seconds\n", fromRoom.getName(), toRoom.getName(), timeInSeconds);
-            }
-            System.out.printf("Total Time for Leader %d: %.2f seconds\n", leaders.get(i).id, totalDistanceInSeconds);*/
+
 
             if (totalWorkload < minTotalWorkload) {
                 minTotalWorkload = totalWorkload;
@@ -253,14 +245,7 @@ public class RecipientIdentificationHandler4 {
 
         leader.setWorkloadNotification(totalDistance / 1.5);
 
-        // Print the full sequence of rooms visited, including intermediary rooms and travel times
-/*        for (int i = 0; i < fullPath.size() - 1; i++) {
-            Room fromRoom = fullPath.get(i);
-            Room toRoom = fullPath.get(i + 1);
-            double distance = getShortestPathLength(fromRoom.getName(), toRoom.getName());
-            double timeInSeconds = distance / 1.5;
-            System.out.printf(" - %s to %s: %.2f seconds\n", fromRoom.getName(), toRoom.getName(), timeInSeconds);
-        }*/
+
 
         // Store the full path in the leader object
         leader.setFullPath((ArrayList<Room>) fullPath);
